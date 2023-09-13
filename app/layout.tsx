@@ -1,9 +1,9 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Noto_Sans_JP } from 'next/font/google'
 import NavBar from './components/nav-bar'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Noto_Sans_JP({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Home',
