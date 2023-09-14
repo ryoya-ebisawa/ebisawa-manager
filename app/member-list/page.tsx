@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import MemberItem from '../components/member-item'
+import MemberItem from '../components/MemberItem'
 
 export default async function MemberList() {
   const supabase = createServerComponentClient({ cookies })

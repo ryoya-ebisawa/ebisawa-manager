@@ -1,4 +1,4 @@
-import MemberAdd from '../components/member-add'
+import AddMember from '../components/AddMember'
 
 export default async function MemberListLayout({
   children,
@@ -8,7 +8,7 @@ export default async function MemberListLayout({
   return (
     <div>
       <div className="py-5 sm:px-6 lg:px-8">
-        <MemberAdd />
+        <AddMember />
       </div>
       {children}
     </div>
