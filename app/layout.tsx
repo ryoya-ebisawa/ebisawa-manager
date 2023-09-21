@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const menuList = [
   { name: 'Home', link: '/' },
-  { name: '現場一覧', link: '/' },
+  { name: '現場一覧', link: '/construction-site' },
   { name: 'メンバー一覧', link: '/member-list' },
 ]
 
