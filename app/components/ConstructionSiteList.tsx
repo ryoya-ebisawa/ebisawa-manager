@@ -10,9 +10,11 @@ export default async function ConstructionSiteList() {
   return (
     <div>
       <p>construction-site</p>
-      {construction_site?.map((cs) => (
-        <ConstructionSiteItem key={cs.id} {...cs} />
-      ))}
+      <div className="mx-3 border-t">
+        {construction_site?.map((cs) => (
+          <ConstructionSiteItem key={cs.id} {...cs} cla />
+        ))}
+      </div>
     </div>
   )
 }
