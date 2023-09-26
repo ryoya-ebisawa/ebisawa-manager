@@ -46,7 +46,7 @@ export default function MemberItem(member: Member) {
 
   return (
     <>
-      <tr className="bg-white border border-grey-500 md:border-none block md:table-row ransition duration-500 ease-in-out hover:bg-gray-100">
+      <tr className="bg-white border border-grey-500 text-gray-800 md:border-none block md:table-row ransition duration-500 ease-in-out hover:bg-gray-100">
         {/* 名前 */}
         <td className="p-2 md:border md:border-grey-500 text-left block md:table-cell">
           <span className="inline-block w-1/4 md:hidden font-bold">名前</span>

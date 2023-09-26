@@ -18,7 +18,7 @@ export default function Navbar({ menu }: { menu: typeMenuItem[] }) {
   }
 
   return (
-    <header>
+    <header className="text-gray-800">
       <nav className="flex px-4 lg:px-6 py-2.5 bg-white mx-auto ">
         <div className="flex flex-wrap justify-between items-center w-full mx-auto">
           <div className="bg-black text-white px-8 py-4 font-bold ">
