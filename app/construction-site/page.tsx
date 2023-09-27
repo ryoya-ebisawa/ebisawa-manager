@@ -1,9 +1,11 @@
 import ConstructionSiteList from '../components/ConstructionSiteList'
 
-export default function ConstructionSite() {
+const ConstructionSite = () => {
   return (
     <div>
       <ConstructionSiteList />
     </div>
   )
 }
+
+export default ConstructionSite

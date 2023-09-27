@@ -2,7 +2,7 @@ import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import ConstructionSiteItem from './ConstructionSiteItem'
 
-export default async function ConstructionSiteList() {
+const ConstructionSiteList = async () => {
   const supabase = createServerComponentClient({ cookies })
   const { data: construction_site } = await supabase
     .from('construction_site')
@@ -17,3 +17,5 @@ export default async function ConstructionSiteList() {
     </div>
   )
 }
+
+export default ConstructionSiteList

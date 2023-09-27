@@ -10,7 +10,7 @@ type typeMenuItem = {
   link: string
 }
 
-export default function Navbar({ menu }: { menu: typeMenuItem[] }) {
+const Navbar = ({ menu }: { menu: typeMenuItem[] }) => {
   const [openMenu, setOpenMenu] = useState(false)
 
   function toggleOpenMenu() {
@@ -69,3 +69,5 @@ export default function Navbar({ menu }: { menu: typeMenuItem[] }) {
     </header>
   )
 }
+
+export default Navbar

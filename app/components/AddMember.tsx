@@ -1,11 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-
 import { useRouter } from 'next/navigation'
 import supabase from '@/utils/supabase'
 
-export default function AddMember() {
+const AddMember = () => {
   const router = useRouter()
   const [name, setName] = useState('')
   const [company, setCompany] = useState('')
@@ -83,3 +82,5 @@ export default function AddMember() {
     </form>
   )
 }
+
+export default AddMember
