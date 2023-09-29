@@ -1,18 +1,20 @@
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import type { Database } from '@/database.types'
+import ConstructionSiteEdit from '@/app/components/ConstructionSiteEdit'
 
 type typePageProps = {
   params: { id: string }
 }
 
-type TypeConstructionSite =
-  Database['public']['Tables']['construction_site']['Row']
-
-export default async function ConstructionSiteEdit({ params }: typePageProps) {
+const ConstructionSiteDetail = async ({ params }: typePageProps) => {
   const supabase = createServerComponentClient({ cookies })
-  const { data: construction_site, error } = await supabase
+  const { data: constructionSite } = await supabase
     .from('construction_site')
     .select('*')
     .eq('id', params.id)
+    .single()
+
+  return <ConstructionSiteEdit constructionSite={constructionSite} />
 }
+
+export default ConstructionSiteDetail
