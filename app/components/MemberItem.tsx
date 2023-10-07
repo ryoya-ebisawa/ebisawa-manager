@@ -9,7 +9,7 @@ import { TrashIcon } from '@heroicons/react/24/solid'
 
 type Member = Database['public']['Tables']['members']['Row']
 
-const MemberItem = (member: Member) => {
+export default function MemberItem(member: Member) {
   const [name, setName] = useState(member.name)
   const [company, setCompany] = useState(member.company)
   const router = useRouter()
@@ -94,5 +94,3 @@ const MemberItem = (member: Member) => {
     </>
   )
 }
-
-export default MemberItem

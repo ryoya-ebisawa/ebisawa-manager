@@ -5,7 +5,9 @@ import Link from 'next/link'
 type TypeConstructionSite =
   Database['public']['Tables']['construction_site']['Row']
 
-const ConstructionSiteItem = (constructionSite: TypeConstructionSite) => {
+export default function ConstructionSiteItem(
+  constructionSite: TypeConstructionSite
+) {
   return (
     <div className="flex flex-col py-3 px-5  border-b text-gray-800 hover:bg-gray-100">
       {/* 現場名 */}
@@ -46,5 +48,3 @@ const ConstructionSiteItem = (constructionSite: TypeConstructionSite) => {
     </div>
   )
 }
-
-export default ConstructionSiteItem

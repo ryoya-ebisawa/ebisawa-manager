@@ -2,7 +2,7 @@ import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import MemberItem from '../components/MemberItem'
 
-const MemberList = async () => {
+export default async function MemberList() {
   const supabase = createServerComponentClient({ cookies })
   const { data: members } = await supabase.from('members').select('*')
 
@@ -34,5 +34,3 @@ const MemberList = async () => {
     </div>
   )
 }
-
-export default MemberList

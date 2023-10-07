@@ -1,12 +1,12 @@
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import ConstructionSiteEdit from '@/app/components/ConstructionSiteEdit'
+import ConstructionSiteEditItem from '@/app/components/ConstructionSiteEdit'
 
 type typePageProps = {
   params: { id: string }
 }
 
-const ConstructionSiteDetail = async ({ params }: typePageProps) => {
+export default async function ConstructionSiteEdit({ params }: typePageProps) {
   const supabase = createServerComponentClient({ cookies })
   const { data: constructionSite } = await supabase
     .from('construction_site')
@@ -14,7 +14,5 @@ const ConstructionSiteDetail = async ({ params }: typePageProps) => {
     .eq('id', params.id)
     .single()
 
-  return <ConstructionSiteEdit constructionSite={constructionSite} />
+  return <ConstructionSiteEditItem constructionSite={constructionSite} />
 }
-
-export default ConstructionSiteDetail

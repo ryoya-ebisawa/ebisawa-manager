@@ -36,33 +36,36 @@ export interface Database {
     Tables: {
       construction_site: {
         Row: {
-          company: string
+          address: string | null
+          company: string | null
           completed: boolean
           created_at: string
           director: string | null
           end_date: string | null
           id: string
-          name: string | null
+          name: string
           start_date: string
         }
         Insert: {
-          company: string
+          address?: string | null
+          company?: string | null
           completed?: boolean
           created_at?: string
           director?: string | null
           end_date?: string | null
           id?: string
-          name?: string | null
+          name: string
           start_date?: string
         }
         Update: {
-          company?: string
+          address?: string | null
+          company?: string | null
           completed?: boolean
           created_at?: string
           director?: string | null
           end_date?: string | null
           id?: string
-          name?: string | null
+          name?: string
           start_date?: string
         }
         Relationships: []

@@ -11,22 +11,24 @@ type TypeFormData = {
   id: string
   name: string | null
   director: string | null
-  company: string
+  company: string | null
+  address: string | null
   completed: boolean
   startDate: string
   endDate: string | null
 }
 
-const ConstructionSiteEdit = ({
+export default function ConstructionSiteEditItem({
   constructionSite,
 }: {
   constructionSite: TypeConstructionSite
-}) => {
+}) {
   const [formData, setFormData] = useState<TypeFormData>({
     id: constructionSite.id,
     name: constructionSite.name,
     director: constructionSite.director,
     company: constructionSite.company,
+    address: constructionSite.address,
     completed: constructionSite.completed,
     startDate: constructionSite.start_date,
     endDate: constructionSite.end_date,
@@ -62,6 +64,22 @@ const ConstructionSiteEdit = ({
             onChange={handleChange}
           />
         </div>
+        {/* 現場の住所 */}
+        <div className="mb-3">
+          <label
+            htmlFor="address"
+            className="block mb-2 font-medium text-gray-900 "
+          >
+            住所
+          </label>
+          <input
+            type="text"
+            id="address"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+            value={formData.address ? formData.address : ''}
+          />
+        </div>
+
         {/* 監督名の情報 */}
         <div className="sm:flex mb-3">
           {/* 監督の名前 */}
@@ -113,7 +131,7 @@ const ConstructionSiteEdit = ({
             />
           </div>
           {/* 作業終了日 */}
-          <div className="sm:mr-3 sm:w-1/2">
+          <div className="sm:mr-3 sm:w-1/2 mb-3">
             <label
               htmlFor="end"
               className="block mb-2 font-medium text-gray-900 "
@@ -128,8 +146,19 @@ const ConstructionSiteEdit = ({
             />
           </div>
         </div>
+        <div className="flex items-center">
+          <p className="font-medium text-gray-900">完了ステータス：</p>
+          <input
+            id="status"
+            type="checkbox"
+            value=""
+            className="w-6 h-6  bg-gray-50 border-gray-300 rounded focus:ring-2"
+          ></input>
+          <label htmlFor="status" className="ml-2 font-medium text-gray-900 ">
+            完了
+          </label>
+        </div>
       </form>
     </div>
   )
 }
-export default ConstructionSiteEdit
