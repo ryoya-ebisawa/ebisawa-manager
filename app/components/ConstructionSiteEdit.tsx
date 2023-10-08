@@ -18,6 +18,10 @@ type TypeFormData = {
   endDate: string | null
 }
 
+type TypeForm = {
+  startDate: string
+}
+
 export default function ConstructionSiteEditItem({
   constructionSite,
 }: {
@@ -38,7 +42,7 @@ export default function ConstructionSiteEditItem({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm<TypeForm>()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -59,6 +63,7 @@ export default function ConstructionSiteEditItem({
           <input
             type="text"
             id="name"
+            name="name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
             value={formData.name ? formData.name : ''}
             onChange={handleChange}
@@ -75,8 +80,10 @@ export default function ConstructionSiteEditItem({
           <input
             type="text"
             id="address"
+            name="address"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
             value={formData.address ? formData.address : ''}
+            onChange={handleChange}
           />
         </div>
 
@@ -93,8 +100,10 @@ export default function ConstructionSiteEditItem({
             <input
               type="text"
               id="director"
+              name="director"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
               value={formData.director ? formData.director : ''}
+              onChange={handleChange}
             />
           </div>
           {/* 監督の会社 */}
@@ -108,8 +117,10 @@ export default function ConstructionSiteEditItem({
             <input
               type="text"
               id="company"
+              name="company"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
               value={formData.company ? formData.company : ''}
+              onChange={handleChange}
             />
           </div>
         </div>
@@ -126,9 +137,15 @@ export default function ConstructionSiteEditItem({
             <input
               type="text"
               id="start"
+              // name="startDate"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-              value={formData.startDate}
+              // value={formData.startDate}
+              // onChange={handleChange}
+              {...register('startDate', {
+                required: true,
+              })}
             />
+            {errors.startDate && <div>入力が必須の項目です</div>}
           </div>
           {/* 作業終了日 */}
           <div className="sm:mr-3 sm:w-1/2 mb-3">
@@ -141,8 +158,10 @@ export default function ConstructionSiteEditItem({
             <input
               type="text"
               id="end"
+              name="endDate"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
               value={formData.endDate ? formData.endDate : ''}
+              onChange={handleChange}
             />
           </div>
         </div>
@@ -153,10 +172,13 @@ export default function ConstructionSiteEditItem({
             type="checkbox"
             value=""
             className="w-6 h-6  bg-gray-50 border-gray-300 rounded focus:ring-2"
-          ></input>
+          />
           <label htmlFor="status" className="ml-2 font-medium text-gray-900 ">
             完了
           </label>
+        </div>
+        <div>
+          <button type="submit">確定</button>
         </div>
       </form>
     </div>
