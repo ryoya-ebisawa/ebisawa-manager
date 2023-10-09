@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { Database } from '@/database.types'
 
@@ -18,40 +17,31 @@ type TypeFormData = {
   endDate: string | null
 }
 
-type TypeForm = {
-  startDate: string
-}
-
 export default function ConstructionSiteEditItem({
   constructionSite,
 }: {
   constructionSite: TypeConstructionSite
 }) {
-  const [formData, setFormData] = useState<TypeFormData>({
-    id: constructionSite.id,
-    name: constructionSite.name,
-    director: constructionSite.director,
-    company: constructionSite.company,
-    address: constructionSite.address,
-    completed: constructionSite.completed,
-    startDate: constructionSite.start_date,
-    endDate: constructionSite.end_date,
-  })
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TypeForm>()
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
-  }
+  } = useForm<TypeFormData>({
+    defaultValues: {
+      id: constructionSite.id,
+      name: constructionSite.name,
+      director: constructionSite.director,
+      company: constructionSite.company,
+      address: constructionSite.address,
+      completed: constructionSite.completed,
+      startDate: constructionSite.start_date,
+      endDate: constructionSite.end_date,
+    },
+  })
 
   return (
     <div className="mx-10 mt-5">
-      <form onSubmit={() => console.log('submit')}>
+      <form onSubmit={handleSubmit(() => console.log('handlesubmit'))}>
         {/* 現場名 */}
         <div className="mb-3">
           <label
@@ -63,11 +53,12 @@ export default function ConstructionSiteEditItem({
           <input
             type="text"
             id="name"
-            name="name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-            value={formData.name ? formData.name : ''}
-            onChange={handleChange}
+            {...register('name', { required: '※入力必須です' })}
           />
+          {errors.name?.message && (
+            <p className="text-red-500">{errors.name.message}</p>
+          )}
         </div>
         {/* 現場の住所 */}
         <div className="mb-3">
@@ -80,10 +71,8 @@ export default function ConstructionSiteEditItem({
           <input
             type="text"
             id="address"
-            name="address"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-            value={formData.address ? formData.address : ''}
-            onChange={handleChange}
+            {...register('address')}
           />
         </div>
 
@@ -100,10 +89,8 @@ export default function ConstructionSiteEditItem({
             <input
               type="text"
               id="director"
-              name="director"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-              value={formData.director ? formData.director : ''}
-              onChange={handleChange}
+              {...register('director')}
             />
           </div>
           {/* 監督の会社 */}
@@ -117,10 +104,8 @@ export default function ConstructionSiteEditItem({
             <input
               type="text"
               id="company"
-              name="company"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-              value={formData.company ? formData.company : ''}
-              onChange={handleChange}
+              {...register('company')}
             />
           </div>
         </div>
@@ -137,15 +122,14 @@ export default function ConstructionSiteEditItem({
             <input
               type="text"
               id="start"
-              // name="startDate"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-              // value={formData.startDate}
-              // onChange={handleChange}
               {...register('startDate', {
-                required: true,
+                required: '※入力必須です',
               })}
             />
-            {errors.startDate && <div>入力が必須の項目です</div>}
+            {errors.startDate?.message && (
+              <p className="text-red-500">{errors.startDate.message}</p>
+            )}
           </div>
           {/* 作業終了日 */}
           <div className="sm:mr-3 sm:w-1/2 mb-3">
@@ -158,27 +142,14 @@ export default function ConstructionSiteEditItem({
             <input
               type="text"
               id="end"
-              name="endDate"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-              value={formData.endDate ? formData.endDate : ''}
-              onChange={handleChange}
+              {...register('endDate')}
             />
           </div>
         </div>
-        <div className="flex items-center">
-          <p className="font-medium text-gray-900">完了ステータス：</p>
-          <input
-            id="status"
-            type="checkbox"
-            value=""
-            className="w-6 h-6  bg-gray-50 border-gray-300 rounded focus:ring-2"
-          />
-          <label htmlFor="status" className="ml-2 font-medium text-gray-900 ">
-            完了
-          </label>
-        </div>
-        <div>
-          <button type="submit">確定</button>
+
+        <div className="submit-button">
+          <input type="submit" />
         </div>
       </form>
     </div>
