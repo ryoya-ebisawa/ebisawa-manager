@@ -25,7 +25,7 @@ export default function ConstructionSiteEditItem({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { isDirty, isValid, errors },
   } = useForm<TypeFormData>({
     defaultValues: {
       id: constructionSite.id,
@@ -39,9 +39,13 @@ export default function ConstructionSiteEditItem({
     },
   })
 
+  const onSubmitConfirm = (data: TypeFormData) => {
+    console.log(data)
+  }
+
   return (
     <div className="mx-10 mt-5">
-      <form onSubmit={handleSubmit(() => console.log('handlesubmit'))}>
+      <form onSubmit={handleSubmit(onSubmitConfirm)}>
         {/* 現場名 */}
         <div className="mb-3">
           <label
@@ -148,8 +152,14 @@ export default function ConstructionSiteEditItem({
           </div>
         </div>
 
-        <div className="submit-button">
-          <input type="submit" />
+        <div className="submit-button text-center">
+          <button
+            type="submit"
+            disabled={!isDirty || !isValid}
+            className="mt-3 py-2.5 px-6 rounded-lg text-sm font-medium text-white bg-teal-600  w-full sm:w-1/5 h-12"
+          >
+            確定
+          </button>
         </div>
       </form>
     </div>
