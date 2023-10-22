@@ -1,14 +1,17 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
+import supabase from '@/utils/supabase'
 import type { Database } from '@/database.types'
+import { useRouter } from 'next/navigation'
+import { format } from 'date-fns'
 
 type TypeConstructionSite =
   Database['public']['Tables']['construction_site']['Row']
 
 type TypeFormData = {
   id: string
-  name: string | null
+  name: string
   director: string | null
   company: string | null
   address: string | null
@@ -22,6 +25,12 @@ export default function ConstructionSiteEditItem({
 }: {
   constructionSite: TypeConstructionSite
 }) {
+  let enddate
+  if (constructionSite.end_date) {
+    enddate = format(new Date(constructionSite.end_date), 'yyyyMMdd')
+  } else {
+    enddate = constructionSite.end_date
+  }
   const {
     register,
     handleSubmit,
@@ -34,13 +43,28 @@ export default function ConstructionSiteEditItem({
       company: constructionSite.company,
       address: constructionSite.address,
       completed: constructionSite.completed,
-      startDate: constructionSite.start_date,
-      endDate: constructionSite.end_date,
+      startDate: format(new Date(constructionSite.start_date), 'yyyyMMdd'),
+      endDate: enddate,
     },
   })
 
-  const onSubmitConfirm = (data: TypeFormData) => {
-    console.log(data)
+  const router = useRouter()
+
+  async function onSubmitConfirm(data: TypeFormData) {
+    if (isDirty) {
+      const { error } = await supabase
+        .from('construction_site')
+        .update({
+          name: data.name,
+          director: data.director,
+          company: data.company,
+          address: data.address,
+          end_date: data.endDate,
+        })
+        .eq('id', data.id)
+    }
+    router.push('/construction-site')
+    router.refresh()
   }
 
   return (
@@ -155,7 +179,6 @@ export default function ConstructionSiteEditItem({
         <div className="submit-button text-center">
           <button
             type="submit"
-            disabled={!isDirty || !isValid}
             className="mt-3 py-2.5 px-6 rounded-lg text-sm font-medium text-white bg-teal-600  w-full sm:w-1/5 h-12"
           >
             確定
