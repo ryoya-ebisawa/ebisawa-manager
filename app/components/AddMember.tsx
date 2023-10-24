@@ -18,7 +18,6 @@ export default function AddMember() {
 
   async function onSubmitAddMember(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    console.log(company)
     const { data, error } = await supabase
       .from('members')
       .insert([{ name: name, company: company }])
