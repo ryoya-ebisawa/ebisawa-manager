@@ -1,13 +1,22 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import supabase from '@/utils/supabase'
-import type { Database } from '@/database.types'
 import { useRouter } from 'next/navigation'
-import { format } from 'date-fns'
+import { format, isValid, parse } from 'date-fns'
 
-type TypeConstructionSite =
-  Database['public']['Tables']['construction_site']['Row']
+const isValidDate = (dateString: string): boolean => {
+  // yyyymmdd形式の文字列を正規表現でチェック
+  const dateRegex = /^\d{8}$/
+  if (!dateRegex.test(dateString)) {
+    // 正規表現に一致しない場合は無効なフォーマット
+    return false
+  }
+  // date-fnsを使用して日付の妥当性を確認
+  const parsedDate = parse(dateString, 'yyyyMMdd', new Date())
+  return isValid(parsedDate)
+}
+
 type TypeFormData = {
   id: string
   name: string
@@ -18,18 +27,39 @@ type TypeFormData = {
   startDate: string
   endDate: string | null
 }
+
+// 工事現場を新規登録
 export default function Create() {
+  // useFormの初期設定
+  const today = new Date()
+
   const {
     register,
     handleSubmit,
+    control,
     formState: { isDirty, isValid, errors },
-  } = useForm<TypeFormData>()
-  function onSubmitConfirm() {
-    console.log('sub')
+  } = useForm<TypeFormData>({
+    defaultValues: {
+      startDate: format(new Date(today), 'yyyyMMdd'),
+    },
+  })
+
+  const router = useRouter()
+  //新規登録　フォームの情報をsupabaseへ
+  async function createConfirm(formdata: TypeFormData) {
+    const {} = await supabase
+      .from('construction_site')
+      .insert([{ name: formdata.name, start_date: formdata.startDate }])
+      .select()
+    router.push('/construction-site')
   }
+
   return (
     <div className="mx-10 mt-5">
-      <form onSubmit={handleSubmit(onSubmitConfirm)}>
+      <p className="text-lg  sm:text-2xl font-bold text-center mb-1 text-indigo-800">
+        🔨新規現場登録🔨
+      </p>
+      <form onSubmit={handleSubmit(createConfirm)}>
         {/* 現場名 */}
         <div className="mb-3">
           <label
@@ -98,7 +128,7 @@ export default function Create() {
           </div>
         </div>
         {/* 作業開始 / 終了 */}
-        <div className="sm:flex mb-3">
+        <div className="mb-3">
           {/* 作業開始日 */}
           <div className="sm:mr-3 sm:w-1/2 mb-3">
             <label
@@ -107,32 +137,29 @@ export default function Create() {
             >
               作業開始日
             </label>
-            <input
-              type="text"
-              id="start"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-              {...register('startDate', {
-                required: '※入力必須です',
-              })}
+            <Controller
+              control={control}
+              name="startDate"
+              render={({ field }) => (
+                <input
+                  type="text"
+                  {...field}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+                  placeholder="yyyymmdd"
+                />
+              )}
+              rules={{
+                required: '日付は必須です',
+                validate: {
+                  isValidDate: (value) =>
+                    isValidDate(value) || 'yyyymmdd形式で入力してください',
+                },
+              }}
             />
-            {errors.startDate?.message && (
+
+            {errors.startDate && (
               <p className="text-red-500">{errors.startDate.message}</p>
             )}
-          </div>
-          {/* 作業終了日 */}
-          <div className="sm:mr-3 sm:w-1/2 mb-3">
-            <label
-              htmlFor="end"
-              className="block mb-2 font-medium text-gray-900 "
-            >
-              作業終了日
-            </label>
-            <input
-              type="text"
-              id="end"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-              {...register('endDate')}
-            />
           </div>
         </div>
 
@@ -141,7 +168,7 @@ export default function Create() {
             type="submit"
             className="mt-3 py-2.5 px-6 rounded-lg text-sm font-medium text-white bg-teal-600  w-full sm:w-1/5 h-12"
           >
-            確定
+            登録
           </button>
         </div>
       </form>

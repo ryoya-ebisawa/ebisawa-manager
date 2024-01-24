@@ -34,7 +34,7 @@ export default function ConstructionSiteEditItem({
   const {
     register,
     handleSubmit,
-    formState: { isDirty, isValid, errors },
+    formState: { isDirty, errors },
   } = useForm<TypeFormData>({
     defaultValues: {
       id: constructionSite.id,
@@ -51,24 +51,25 @@ export default function ConstructionSiteEditItem({
   const router = useRouter()
 
   async function onSubmitConfirm(data: TypeFormData) {
-    if (isDirty) {
-      const { error } = await supabase
-        .from('construction_site')
-        .update({
-          name: data.name,
-          director: data.director,
-          company: data.company,
-          address: data.address,
-          end_date: data.endDate,
-        })
-        .eq('id', data.id)
-    }
+    const { error } = await supabase
+      .from('construction_site')
+      .update({
+        name: data.name,
+        director: data.director,
+        company: data.company,
+        address: data.address,
+        end_date: data.endDate,
+      })
+      .eq('id', data.id)
     router.push('/construction-site')
     router.refresh()
   }
 
   return (
     <div className="mx-10 mt-5">
+      <p className="text-lg sm:text-2xl font-bold text-center mb-1 text-emerald-600">
+        🔨現場情報変更🔨
+      </p>
       <form onSubmit={handleSubmit(onSubmitConfirm)}>
         {/* 現場名 */}
         <div className="mb-3">
