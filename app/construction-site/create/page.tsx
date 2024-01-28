@@ -150,9 +150,13 @@ export default function Create() {
               )}
               rules={{
                 required: '日付は必須です',
+                maxLength: {
+                  value: 8,
+                  message: '8桁で入力してください',
+                },
                 validate: {
                   isValidDate: (value) =>
-                    isValidDate(value) || 'yyyymmdd形式で入力してください',
+                    isValidDate(value) || '正しい日付を入力してください',
                 },
               }}
             />
