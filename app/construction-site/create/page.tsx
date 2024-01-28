@@ -9,10 +9,10 @@ const isValidDate = (dateString: string): boolean => {
   // yyyymmdd形式の文字列を正規表現でチェック
   const dateRegex = /^\d{8}$/
   if (!dateRegex.test(dateString)) {
-    // 正規表現に一致しない場合は無効なフォーマット
+    // 数字以外であればエラー
     return false
   }
-  // date-fnsを使用して日付の妥当性を確認
+  // date-fnsで日付の妥当性を確認
   const parsedDate = parse(dateString, 'yyyyMMdd', new Date())
   return isValid(parsedDate)
 }
@@ -37,7 +37,7 @@ export default function Create() {
     register,
     handleSubmit,
     control,
-    formState: { isDirty, isValid, errors },
+    formState: { errors },
   } = useForm<TypeFormData>({
     defaultValues: {
       startDate: format(new Date(today), 'yyyyMMdd'),
