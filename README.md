@@ -1,34 +1,24 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### 概要
+人員がいつどこへ行ったのか管理するアプリケーションです。
 
-## Getting Started
+### 経緯
+現在父の会社では人員がいつどこへ行ったのか管理できていない問題があり、それを解決するために作成しました。
 
-First, run the development server:
+### 機能
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+１．メンバー登録
+メンバーを管理します。登録、削除、編集が可能です。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+２．現場登録
+作業を行う現場名、住所、監督の名前、監督の会社、作業開始日、作業終了日が管理できます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+３．日報登録
+作業日報を登録します。
+登録した現場とメンバーを選択し、作業内容を登録します。
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+４．集計
+現場ごとの集計を行います。
+登録した現場ごとに、期間を入力し、その間に作業したメンバーの名前、人数を集計します。
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 現在作成中です。
+　
