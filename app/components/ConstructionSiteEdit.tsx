@@ -1,10 +1,10 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import supabase from '@/utils/supabase'
 import type { Database } from '@/database.types'
 import { useRouter } from 'next/navigation'
-import { format } from 'date-fns'
+import { format, isValid, parse } from 'date-fns'
 
 type TypeConstructionSite =
   Database['public']['Tables']['construction_site']['Row']
@@ -18,6 +18,18 @@ type TypeFormData = {
   completed: boolean
   startDate: string
   endDate: string | null
+}
+
+const isValidDate = (dateString: string): boolean => {
+  // yyyymmdd形式の文字列を正規表現でチェック
+  const dateRegex = /^\d{8}$/
+  if (!dateRegex.test(dateString)) {
+    // 数字以外であればエラー
+    return false
+  }
+  // date-fnsで日付の妥当性を確認
+  const parsedDate = parse(dateString, 'yyyyMMdd', new Date())
+  return isValid(parsedDate)
 }
 
 export default function ConstructionSiteEditItem({
@@ -34,6 +46,7 @@ export default function ConstructionSiteEditItem({
   const {
     register,
     handleSubmit,
+    control,
     formState: { isDirty, errors },
   } = useForm<TypeFormData>({
     defaultValues: {
@@ -148,14 +161,30 @@ export default function ConstructionSiteEditItem({
             >
               作業開始日
             </label>
-            <input
-              type="text"
-              id="start"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-              {...register('startDate', {
-                required: '※入力必須です',
-              })}
+            <Controller
+              control={control}
+              name="startDate"
+              render={({ field }) => (
+                <input
+                  type="text"
+                  {...field}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+                  placeholder="yyyymmdd"
+                />
+              )}
+              rules={{
+                required: '日付は必須です',
+                maxLength: {
+                  value: 8,
+                  message: '8桁で入力してください',
+                },
+                validate: {
+                  isValidDate: (value) =>
+                    isValidDate(value) || '正しい日付を入力してください',
+                },
+              }}
             />
+
             {errors.startDate?.message && (
               <p className="text-red-500">{errors.startDate.message}</p>
             )}
