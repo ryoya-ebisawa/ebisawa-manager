@@ -24,7 +24,6 @@ const isValidDate = (dateString: string): boolean => {
   // yyyymmdd形式の文字列を正規表現でチェック
   const dateRegex = /^\d{8}$/
   if (!dateRegex.test(dateString)) {
-    // 数字以外であればエラー
     return false
   }
   // date-fnsで日付の妥当性を確認
@@ -63,6 +62,7 @@ export default function ConstructionSiteEditItem({
 
   const router = useRouter()
 
+  //更新内容をsupabase反映させる
   async function onSubmitConfirm(data: TypeFormData) {
     const { error } = await supabase
       .from('construction_site')
