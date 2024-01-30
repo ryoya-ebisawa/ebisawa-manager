@@ -20,6 +20,7 @@ type TypeFormData = {
   endDate: string | null
 }
 
+//開始日と終了日のバリデーション
 const isValidDate = (dateString: string): boolean => {
   // yyyymmdd形式の文字列を正規表現でチェック
   const dateRegex = /^\d{8}$/
