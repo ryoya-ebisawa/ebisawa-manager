@@ -214,6 +214,7 @@ export default function ConstructionSiteEditItem({
                   value: 8,
                   message: '8桁で入力してください',
                 },
+                // 終了日は日付もしくはNull
                 validate: {
                   isValidDate: (value) =>
                     (value && isValidDate(value)) ||
