@@ -197,12 +197,35 @@ export default function ConstructionSiteEditItem({
             >
               作業終了日
             </label>
-            <input
-              type="text"
-              id="end"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-              {...register('endDate')}
+            <Controller
+              control={control}
+              name="endDate"
+              render={({ field }) => (
+                <input
+                  type="text"
+                  {...field}
+                  value={field.value || ''}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+                  placeholder="yyyymmdd"
+                />
+              )}
+              rules={{
+                required: '日付は必須です',
+                maxLength: {
+                  value: 8,
+                  message: '8桁で入力してください',
+                },
+                validate: {
+                  isValidDate: (value) =>
+                    (value && isValidDate(value)) ||
+                    '正しい日付を入力してください',
+                },
+              }}
             />
+
+            {errors.endDate?.message && (
+              <p className="text-red-500">{errors.endDate.message}</p>
+            )}
           </div>
         </div>
 
