@@ -210,7 +210,6 @@ export default function ConstructionSiteEditItem({
                 />
               )}
               rules={{
-                required: '日付は必須です',
                 maxLength: {
                   value: 8,
                   message: '8桁で入力してください',
