@@ -32,6 +32,13 @@ const isValidDate = (dateString: string): boolean => {
   return isValid(parsedDate)
 }
 
+const isValidEndDate = (
+  endDateString: string,
+  startDateString: string
+): boolean => {
+  return endDateString >= startDateString
+}
+
 export default function ConstructionSiteEditItem({
   constructionSite,
 }: {
@@ -47,7 +54,8 @@ export default function ConstructionSiteEditItem({
     register,
     handleSubmit,
     control,
-    formState: { isDirty, errors },
+    getValues,
+    formState: { errors },
   } = useForm<TypeFormData>({
     defaultValues: {
       id: constructionSite.id,
@@ -220,6 +228,18 @@ export default function ConstructionSiteEditItem({
                   isValidDate: (value) =>
                     (value && isValidDate(value)) ||
                     '正しい日付を入力してください',
+                  isValidEndDate: (value) => {
+                    const startDate = getValues('startDate')
+                    //開始日もしくは終了日がnullの場合はバリデーションを行わない
+                    if (!startDate || !value) {
+                      return true
+                    }
+                    return (
+                      //終了日が開始日以降であることのバリデーション
+                      isValidEndDate(value, startDate) ||
+                      '終了日は開始日より後の日付を入力してください'
+                    )
+                  },
                 },
               }}
             />
