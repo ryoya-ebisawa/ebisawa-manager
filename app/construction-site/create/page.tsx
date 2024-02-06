@@ -49,7 +49,14 @@ export default function Create() {
   async function createConfirm(formdata: TypeFormData) {
     const {} = await supabase
       .from('construction_site')
-      .insert([{ name: formdata.name, start_date: formdata.startDate }])
+      .insert([
+        {
+          name: formdata.name,
+          director: formdata.director,
+          company: formdata.company,
+          start_date: formdata.startDate,
+        },
+      ])
       .select()
     router.push('/construction-site')
   }
